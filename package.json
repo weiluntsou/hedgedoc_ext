@@ -1,0 +1,188 @@
+{
+    "name": "hedgedoc-sync",
+    "displayName": "HedgeDoc Sync",
+    "description": "Sync Markdown notes with your self-hosted HedgeDoc instance",
+    "version": "0.1.0",
+    "engines": {
+        "vscode": "^1.74.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "icon": "media/icon.png",
+    "activationEvents": [
+        "onCommand:hedgedoc.configure",
+        "onCommand:hedgedoc.pullNote",
+        "onCommand:hedgedoc.pushNote",
+        "onCommand:hedgedoc.openHistory",
+        "onCommand:hedgedoc.newNote",
+        "onCommand:hedgedoc.openInBrowser",
+        "onView:hedgedocExplorer"
+    ],
+    "publisher": "weiluntsou",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/weiluntsou/hedgedoc-sync-vscode"
+    },
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "hedgedoc.configure",
+                "title": "HedgeDoc: 設定連線",
+                "icon": "$(gear)"
+            },
+            {
+                "command": "hedgedoc.pullNote",
+                "title": "HedgeDoc: 拉取筆記",
+                "icon": "$(cloud-download)"
+            },
+            {
+                "command": "hedgedoc.pushNote",
+                "title": "HedgeDoc: 推送筆記",
+                "icon": "$(cloud-upload)"
+            },
+            {
+                "command": "hedgedoc.openHistory",
+                "title": "HedgeDoc: 開啟筆記列表",
+                "icon": "$(list-unordered)"
+            },
+            {
+                "command": "hedgedoc.newNote",
+                "title": "HedgeDoc: 建立新筆記",
+                "icon": "$(add)"
+            },
+            {
+                "command": "hedgedoc.openInBrowser",
+                "title": "HedgeDoc: 在瀏覽器開啟",
+                "icon": "$(link-external)"
+            },
+            {
+                "command": "hedgedoc.refreshExplorer",
+                "title": "HedgeDoc: 重新整理",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "hedgedoc.deleteNote",
+                "title": "HedgeDoc: 刪除筆記",
+                "icon": "$(trash)"
+            },
+            {
+                "command": "hedgedoc.pinNote",
+                "title": "HedgeDoc: 釘選筆記",
+                "icon": "$(pin)"
+            }
+        ],
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "hedgedoc",
+                    "title": "HedgeDoc",
+                    "icon": "media/hedgedoc-sidebar.svg"
+                }
+            ]
+        },
+        "views": {
+            "hedgedoc": [
+                {
+                    "id": "hedgedocExplorer",
+                    "name": "筆記列表",
+                    "icon": "media/hedgedoc-sidebar.svg"
+                }
+            ]
+        },
+        "menus": {
+            "view/title": [
+                {
+                    "command": "hedgedoc.newNote",
+                    "when": "view == hedgedocExplorer",
+                    "group": "navigation"
+                },
+                {
+                    "command": "hedgedoc.refreshExplorer",
+                    "when": "view == hedgedocExplorer",
+                    "group": "navigation"
+                },
+                {
+                    "command": "hedgedoc.configure",
+                    "when": "view == hedgedocExplorer",
+                    "group": "navigation"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "hedgedoc.pullNote",
+                    "when": "view == hedgedocExplorer && viewItem == note",
+                    "group": "inline"
+                },
+                {
+                    "command": "hedgedoc.openInBrowser",
+                    "when": "view == hedgedocExplorer && viewItem == note",
+                    "group": "inline"
+                },
+                {
+                    "command": "hedgedoc.deleteNote",
+                    "when": "view == hedgedocExplorer && viewItem == note"
+                }
+            ],
+            "editor/title": [
+                {
+                    "command": "hedgedoc.pushNote",
+                    "when": "resourceExtname == .md",
+                    "group": "navigation"
+                },
+                {
+                    "command": "hedgedoc.pullNote",
+                    "when": "resourceExtname == .md",
+                    "group": "navigation"
+                },
+                {
+                    "command": "hedgedoc.openInBrowser",
+                    "when": "resourceExtname == .md",
+                    "group": "navigation"
+                }
+            ]
+        },
+        "configuration": {
+            "title": "HedgeDoc Sync",
+            "properties": {
+                "hedgedocSync.serverUrl": {
+                    "type": "string",
+                    "default": "https://notes.weiluntsou.com",
+                    "description": "HedgeDoc 伺服器網址"
+                },
+                "hedgedocSync.localFolder": {
+                    "type": "string",
+                    "default": "",
+                    "description": "本地儲存資料夾路徑 (留空表示使用工作區資料夾)"
+                },
+                "hedgedocSync.autoSyncOnSave": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "儲存時自動同步到 HedgeDoc"
+                },
+                "hedgedocSync.sessionCookie": {
+                    "type": "string",
+                    "default": "",
+                    "description": "HedgeDoc session cookie (用於身份驗證)"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile",
+        "lint": "eslint src --ext ts"
+    },
+    "devDependencies": {
+        "@types/node": "^18.0.0",
+        "@types/vscode": "^1.74.0",
+        "typescript": "^5.0.0"
+    },
+    "dependencies": {
+        "node-fetch": "^2.6.9"
+    }
+}
