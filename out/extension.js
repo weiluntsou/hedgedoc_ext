@@ -118,7 +118,7 @@ async function pullNote(noteItem, context) {
             // 手動輸入
             noteId = await vscode.window.showInputBox({
                 prompt: '輸入 HedgeDoc 筆記 ID 或 URL',
-                placeHolder: '例如: abc123 或 https://notes.weiluntsou.com/abc123',
+                placeHolder: '例如: abc123 或 https://hedgedoc.example.com/abc123',
             });
             if (!noteId)
                 return;
@@ -231,11 +231,16 @@ async function createNoteFromCurrentFile(doc) {
             const noteId = await client.createNote(content);
             noteFileManager.associateFileWithNote(doc.fileName, noteId);
             const config = vscode.workspace.getConfiguration('hedgedocSync');
-            const serverUrl = config.get('serverUrl', 'https://notes.weiluntsou.com');
+            const serverUrl = config.get('serverUrl', '').trim().replace(/\/$/, '');
             explorerProvider.refresh();
             vscode.window.showInformationMessage(`✅ 已上傳到 HedgeDoc: ${noteId}`, '在瀏覽器開啟').then(action => {
                 if (action === '在瀏覽器開啟') {
-                    vscode.env.openExternal(vscode.Uri.parse(`${serverUrl}/${noteId}`));
+                    if (serverUrl) {
+                        vscode.env.openExternal(vscode.Uri.parse(`${serverUrl}/${noteId}`));
+                    }
+                    else {
+                        vscode.window.showErrorMessage('尚未設定伺服器網址，無法開啟瀏覽器');
+                    }
                 }
             });
         }
@@ -246,7 +251,11 @@ async function createNoteFromCurrentFile(doc) {
 }
 async function openInBrowser(noteItem) {
     const config = vscode.workspace.getConfiguration('hedgedocSync');
-    const serverUrl = config.get('serverUrl', 'https://notes.weiluntsou.com');
+    const serverUrl = config.get('serverUrl', '').trim().replace(/\/$/, '');
+    if (!serverUrl) {
+        vscode.window.showErrorMessage('尚未設定 HedgeDoc 伺服器網址，請先執行設定');
+        return;
+    }
     let noteId;
     if (noteItem && noteItem.noteId) {
         noteId = noteItem.noteId;

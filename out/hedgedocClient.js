@@ -41,7 +41,11 @@ class HedgeDocClient {
     }
     getServerUrl() {
         const config = vscode.workspace.getConfiguration('hedgedocSync');
-        return config.get('serverUrl', 'https://notes.weiluntsou.com').replace(/\/$/, '');
+        const url = config.get('serverUrl', '').trim().replace(/\/$/, '');
+        if (!url) {
+            throw new Error('尚未設定 HedgeDoc 伺服器網址。\n請執行「HedgeDoc: 設定連線」或在 VS Code 設定中填入 hedgedocSync.serverUrl。');
+        }
+        return url;
     }
     async getHeaders(contentType = 'application/json') {
         const cookie = await this.authManager.getSessionCookie();

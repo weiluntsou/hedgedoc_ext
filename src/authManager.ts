@@ -12,11 +12,11 @@ export class AuthManager {
         const config = vscode.workspace.getConfiguration('hedgedocSync');
 
         // 設定伺服器 URL
-        const currentUrl = config.get<string>('serverUrl', 'https://notes.weiluntsou.com');
+        const currentUrl = config.get<string>('serverUrl', '');
         const serverUrl = await vscode.window.showInputBox({
             prompt: 'HedgeDoc 伺服器網址',
             value: currentUrl,
-            placeHolder: 'https://notes.weiluntsou.com',
+            placeHolder: '例如：https://hedgedoc.example.com',
             validateInput: (val) => {
                 if (!val || !val.startsWith('http')) {
                     return '請輸入有效的 URL (以 http:// 或 https:// 開頭)';

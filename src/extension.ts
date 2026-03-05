@@ -113,7 +113,7 @@ async function pullNote(noteItem: any, context: vscode.ExtensionContext) {
             // 手動輸入
             noteId = await vscode.window.showInputBox({
                 prompt: '輸入 HedgeDoc 筆記 ID 或 URL',
-                placeHolder: '例如: abc123 或 https://notes.weiluntsou.com/abc123',
+                placeHolder: '例如: abc123 或 https://hedgedoc.example.com/abc123',
             });
             if (!noteId) return;
 
@@ -247,7 +247,7 @@ async function createNoteFromCurrentFile(doc: vscode.TextDocument) {
             noteFileManager.associateFileWithNote(doc.fileName, noteId);
 
             const config = vscode.workspace.getConfiguration('hedgedocSync');
-            const serverUrl = config.get<string>('serverUrl', 'https://notes.weiluntsou.com');
+            const serverUrl = config.get<string>('serverUrl', '').trim().replace(/\/$/, '');
 
             explorerProvider.refresh();
             vscode.window.showInformationMessage(
@@ -255,7 +255,11 @@ async function createNoteFromCurrentFile(doc: vscode.TextDocument) {
                 '在瀏覽器開啟'
             ).then(action => {
                 if (action === '在瀏覽器開啟') {
-                    vscode.env.openExternal(vscode.Uri.parse(`${serverUrl}/${noteId}`));
+                    if (serverUrl) {
+                        vscode.env.openExternal(vscode.Uri.parse(`${serverUrl}/${noteId}`));
+                    } else {
+                        vscode.window.showErrorMessage('尚未設定伺服器網址，無法開啟瀏覽器');
+                    }
                 }
             });
         } catch (err: any) {
@@ -266,7 +270,12 @@ async function createNoteFromCurrentFile(doc: vscode.TextDocument) {
 
 async function openInBrowser(noteItem: any) {
     const config = vscode.workspace.getConfiguration('hedgedocSync');
-    const serverUrl = config.get<string>('serverUrl', 'https://notes.weiluntsou.com');
+    const serverUrl = config.get<string>('serverUrl', '').trim().replace(/\/$/, '');
+
+    if (!serverUrl) {
+        vscode.window.showErrorMessage('尚未設定 HedgeDoc 伺服器網址，請先執行設定');
+        return;
+    }
 
     let noteId: string | undefined;
 

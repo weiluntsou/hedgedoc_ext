@@ -7,15 +7,15 @@
 
 ## ✨ 功能
 
-| 功能 | 說明 |
-|------|------|
-| 📥 **拉取筆記** | 從 HedgeDoc 下載 Markdown 到本地，並在 VS Code 中開啟 |
-| 📤 **推送筆記** | 將本地編輯後的內容同步回 HedgeDoc |
-| 📋 **筆記列表** | 在側邊欄瀏覽所有歷史筆記，支援釘選顯示 |
-| ➕ **建立筆記** | 直接在 VS Code 中建立新的 HedgeDoc 筆記 |
-| 🌐 **在瀏覽器開啟** | 快速跳轉到 HedgeDoc 網頁版進行協作 |
-| 💾 **自動同步** | 儲存 Markdown 時自動推送（可選開啟） |
-| 🔒 **安全認證** | Session Cookie 使用 VS Code SecretStorage 加密儲存 |
+| 功能               | 說明                                                  |
+| ------------------ | ----------------------------------------------------- |
+| 📥 **拉取筆記**     | 從 HedgeDoc 下載 Markdown 到本地，並在 VS Code 中開啟 |
+| 📤 **推送筆記**     | 將本地編輯後的內容同步回 HedgeDoc                     |
+| 📋 **筆記列表**     | 在側邊欄瀏覽所有歷史筆記，支援釘選顯示                |
+| ➕ **建立筆記**     | 直接在 VS Code 中建立新的 HedgeDoc 筆記               |
+| 🌐 **在瀏覽器開啟** | 快速跳轉到 HedgeDoc 網頁版進行協作                    |
+| 💾 **自動同步**     | 儲存 Markdown 時自動推送（可選開啟）                  |
+| 🔒 **安全認證**     | Session Cookie 使用 VS Code SecretStorage 加密儲存    |
 
 ## 🚀 快速開始
 
@@ -29,7 +29,7 @@ HedgeDoc: 設定連線
 
 ### 2. 取得 Session Cookie（登入驗證）
 
-1. 在瀏覽器登入你的 HedgeDoc 站台（`https://notes.weiluntsou.com`）
+1. 在瀏覽器登入你的 HedgeDoc 站台（例如：`https://hedgedoc.example.com`）
 2. 按 `F12` 開啟開發者工具
 3. 前往 **Application** → **Cookies** → 找到 `connect.sid`
 4. 複製 Cookie 值並貼入 VS Code 設定畫面
@@ -44,11 +44,11 @@ HedgeDoc: 設定連線
 
 ## ⚙️ 設定選項
 
-| 設定 | 預設值 | 說明 |
-|------|--------|------|
-| `hedgedocSync.serverUrl` | `https://notes.weiluntsou.com` | HedgeDoc 伺服器網址 |
-| `hedgedocSync.localFolder` | _(工作區)_ | 本地儲存位置 |
-| `hedgedocSync.autoSyncOnSave` | `false` | 儲存時自動推送 |
+| 設定                          | 預設值                         | 說明                |
+| ----------------------------- | ------------------------------ | ------------------- |
+| `hedgedocSync.serverUrl`      | `https://notes.weiluntsou.com` | HedgeDoc 伺服器網址 |
+| `hedgedocSync.localFolder`    | _(工作區)_                     | 本地儲存位置        |
+| `hedgedocSync.autoSyncOnSave` | `false`                        | 儲存時自動推送      |
 
 ## ⚠️ 關於 HedgeDoc 1.x 的推送限制
 

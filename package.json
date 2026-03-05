@@ -149,8 +149,8 @@
             "properties": {
                 "hedgedocSync.serverUrl": {
                     "type": "string",
-                    "default": "https://notes.weiluntsou.com",
-                    "description": "HedgeDoc 伺服器網址"
+                    "default": "",
+                    "markdownDescription": "你的 HedgeDoc 伺服器網址，例如 `https://hedgedoc.example.com`（不需要尾部斜線）"
                 },
                 "hedgedocSync.localFolder": {
                     "type": "string",
